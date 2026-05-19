@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pygame
 import random
 import math
@@ -5,12 +6,12 @@ import sys
 
 # =========================
 # COSMIC HEAT DELUXE FINAL
-# Controles:
-# Setas ou WASD = mover
-# Espaço = atirar
-# P = pausar
-# R = reiniciar quando perder
-# ESC = sair
+# Controls:
+# Arrows or WASD = move
+# Space = shoot
+# P = pause
+# R = restart on game over
+# ESC = exit
 # =========================
 
 pygame.init()
@@ -20,7 +21,7 @@ ALTURA = 650
 FPS = 60
 
 TELA = pygame.display.set_mode((LARGURA, ALTURA))
-pygame.display.set_caption("Cosmic Heat Deluxe ✨ - Final")
+pygame.display.set_caption("Cosmic Heat Deluxe  - Final")
 RELOGIO = pygame.time.Clock()
 
 # Paleta
@@ -44,9 +45,9 @@ fonte_media  = pygame.font.SysFont("arial", 36, bold=True)
 fonte_grande = pygame.font.SysFont("arial", 62, bold=True)
 
 
-# ─────────────────────────────────────────
-# UTILITÁRIOS
-# ─────────────────────────────────────────
+#                                          
+# UTILIT RIOS
+#                                          
 
 def texto(msg, fonte, cor, x, y, centro=True):
     img = fonte.render(msg, True, cor)
@@ -82,9 +83,9 @@ def desenhar_fundo(estrelas):
             e[1] = 0
 
 
-# ─────────────────────────────────────────
-# SISTEMA DE PARTÍCULAS
-# ─────────────────────────────────────────
+#                                          
+# SISTEMA DE PART CULAS
+#                                          
 
 class Particula(pygame.sprite.Sprite):
     def __init__(self, x, y, cor):
@@ -117,9 +118,9 @@ def criar_explosao(x, y, cor, grupo_particulas, todos, qtd=18):
         todos.add(p)
 
 
-# ─────────────────────────────────────────
+#                                          
 # CLASSES DE SPRITES
-# ─────────────────────────────────────────
+#                                          
 
 class Nave(pygame.sprite.Sprite):
     def __init__(self):
@@ -138,7 +139,7 @@ class Nave(pygame.sprite.Sprite):
         self.ultimo_tiro = 0
         self.delay_tiro = 160
         self.powerup_triplo = 0  # frames restantes de tiro triplo
-        self.invencivel = 0      # frames de invencibilidade após levar dano
+        self.invencivel = 0      # frames de invencibilidade apos levar dano
 
     def update(self):
         teclas = pygame.key.get_pressed()
@@ -155,7 +156,7 @@ class Nave(pygame.sprite.Sprite):
         if self.powerup_triplo > 0: self.powerup_triplo -= 1
         if self.invencivel > 0:     self.invencivel -= 1
 
-        # pisca quando invencível
+        # pisca quando invencivel
         if self.invencivel > 0 and (self.invencivel // 5) % 2 == 0:
             self.image.set_alpha(80)
         else:
@@ -203,7 +204,7 @@ class Tiro(pygame.sprite.Sprite):
 
 
 class TiroInimigo(pygame.sprite.Sprite):
-    """Projétil disparado por inimigos / boss."""
+    """Projetil disparado por inimigos / boss."""
     def __init__(self, x, y, alvo_x, alvo_y, vel=5):
         super().__init__()
         self.image = pygame.Surface((8, 8), pygame.SRCALPHA)
@@ -361,7 +362,7 @@ class PowerUp(pygame.sprite.Sprite):
         self.image.blit(img_s, img_s.get_rect(center=(18, 18)))
         self.rect = self.image.get_rect(center=(random.randint(30, LARGURA - 30), -30))
         self.vel_y = 3
-        # animação flutuante
+        # anima ao flutuante
         self.base_y = -30
         self.t = 0
 
@@ -373,9 +374,9 @@ class PowerUp(pygame.sprite.Sprite):
             self.kill()
 
 
-# ─────────────────────────────────────────
+#                                          
 # HUD / UI
-# ─────────────────────────────────────────
+#                                          
 
 def desenhar_hud(jogador, pontos, nivel, bosses, combo, melhor):
     # Painel lateral esquerdo
@@ -390,7 +391,7 @@ def desenhar_hud(jogador, pontos, nivel, bosses, combo, melhor):
         barra(15, 75, jogador.escudo, 50, 220, ROXO)
 
     texto(f"AMMO: {jogador.tiros}", fonte_tiny, AMARELO, 15, 98, centro=False)
-    texto(f"NÍVEL: {nivel}", fonte_tiny, AZUL_CLARO, 15, 120, centro=False)
+    texto(f"N VEL: {nivel}", fonte_tiny, AZUL_CLARO, 15, 120, centro=False)
     if jogador.powerup_triplo > 0:
         texto(f"TRIPLO: {jogador.powerup_triplo // 60 + 1}s", fonte_tiny, AZUL_NEON, 120, 120, centro=False)
 
@@ -409,14 +410,14 @@ def desenhar_hud(jogador, pontos, nivel, bosses, combo, melhor):
     # Barra do boss
     for boss in bosses:
         cor_boss = VERMELHO if boss.fase == Boss.FASE_RAIVA else ROXO
-        label = "⚡ BOSS RAIVA!" if boss.fase == Boss.FASE_RAIVA else "BOSS"
+        label = "BOSS BOSS RAIVA!" if boss.fase == Boss.FASE_RAIVA else "BOSS"
         texto(label, fonte_pequena, cor_boss, LARGURA // 2, 160)
         barra(LARGURA // 2 - 200, 185, boss.vida, boss.vida_max, 400, cor_boss, (30, 10, 10))
 
 
-# ─────────────────────────────────────────
+#                                          
 # MENUS
-# ─────────────────────────────────────────
+#                                          
 
 def menu_inicial():
     estrelas = criar_estrelas(120)
@@ -429,9 +430,9 @@ def menu_inicial():
         pygame.draw.rect(TELA, AZUL_NEON, (LARGURA // 2 - 200, 280, 400, 240), 2, border_radius=12)
 
         linhas = [
-            ("ENTER - Começar",        AMARELO),
+            ("ENTER - Come ar",        AMARELO),
             ("Setas / WASD - Mover",   BRANCO),
-            ("ESPAÇO - Atirar",        BRANCO),
+            ("ESPA O - Atirar",        BRANCO),
             ("P - Pausar | ESC - Sair",BRANCO),
             ("R - Reiniciar (game over)",CINZA),
         ]
@@ -460,11 +461,11 @@ def tela_game_over(pontos, venceu, melhor):
         TELA.blit(camada, (0, 0))
 
         if venceu:
-            texto("VOCÊ VENCEU!", fonte_grande, VERDE_LIMA, LARGURA // 2, ALTURA // 2 - 120)
+            texto("VOC  VENCEU!", fonte_grande, VERDE_LIMA, LARGURA // 2, ALTURA // 2 - 120)
         else:
             texto("GAME OVER", fonte_grande, VERMELHO, LARGURA // 2, ALTURA // 2 - 120)
 
-        texto(f"Pontuação: {pontos}", fonte_media, BRANCO, LARGURA // 2, ALTURA // 2 - 30)
+        texto(f"Pontua ao: {pontos}", fonte_media, BRANCO, LARGURA // 2, ALTURA // 2 - 30)
         texto(f"Melhor: {melhor}", fonte_media, AMARELO, LARGURA // 2, ALTURA // 2 + 30)
         texto("ENTER - jogar novamente  |  ESC - sair", fonte_pequena, CINZA, LARGURA // 2, ALTURA // 2 + 100)
 
@@ -481,9 +482,9 @@ def tela_game_over(pontos, venceu, melhor):
                     return False  # sair
 
 
-# ─────────────────────────────────────────
+#                                          
 # LOOP PRINCIPAL
-# ─────────────────────────────────────────
+#                                          
 
 def criar_grupos():
     todos       = pygame.sprite.Group()
@@ -530,7 +531,7 @@ def jogo():
             RELOGIO.tick(FPS)
             dt = RELOGIO.get_time()
 
-            # ── Eventos ──
+            #    Eventos   
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
                     pygame.quit(); sys.exit()
@@ -563,11 +564,11 @@ def jogo():
                 pygame.display.flip()
                 continue
 
-            # ── Atirar ──
+            #    Atirar   
             if pygame.key.get_pressed()[pygame.K_SPACE]:
                 jogador.atirar(tiros, todos)
 
-            # ── Update ──
+            #    Update   
             todos.update()
             nivel = 1 + pontos // 300
 
@@ -575,16 +576,16 @@ def jogo():
             for ini in inimigos:
                 ini.tentar_atirar(jogador, tiros_ini, todos)
 
-            # Boss spawn (cada 800 pontos, máx 3 bosses simultâneos)
+            # Boss spawn (cada 800 pontos, m x 3 bosses simult neos)
             if pontos >= 500 and len(bosses) == 0 and not venceu:
                 b = Boss(nivel)
                 bosses.add(b); todos.add(b)
             for b in bosses:
                 b.atirar(jogador, tiros_ini, todos)
 
-            # ── Colisões ──
+            #    Colisoes   
 
-            # tiro do jogador × inimigos
+            # tiro do jogador   inimigos
             acertos = pygame.sprite.groupcollide(inimigos, tiros, False, True)
             for ini, _ in acertos.items():
                 ini.vida -= 1
@@ -599,7 +600,7 @@ def jogo():
                         pw.rect.center = ini.rect.center
                         powerups.add(pw); todos.add(pw)
 
-            # tiro do jogador × meteoros
+            # tiro do jogador   meteoros
             acertos_met = pygame.sprite.groupcollide(meteoros, tiros, False, True)
             for met, _ in acertos_met.items():
                 met.vida -= 1
@@ -608,7 +609,7 @@ def jogo():
                     met.kill()
                     pontos += 15
 
-            # tiro do jogador × boss
+            # tiro do jogador   boss
             acertos_boss = pygame.sprite.groupcollide(bosses, tiros, False, True)
             for boss, lista in acertos_boss.items():
                 boss.vida -= len(lista) * 5
@@ -619,31 +620,31 @@ def jogo():
                     pontos += 1000
                     venceu = True
 
-            # tiro inimigo × jogador
+            # tiro inimigo   jogador
             if pygame.sprite.spritecollide(jogador, tiros_ini, True):
                 if jogador.levar_dano(12):
                     shake = 6
                     criar_explosao(jogador.rect.centerx, jogador.rect.top, VERMELHO, particulas, todos, qtd=10)
 
-            # inimigos × jogador
+            # inimigos   jogador
             if pygame.sprite.spritecollide(jogador, inimigos, True):
                 if jogador.levar_dano(20):
                     shake = 10
                     combo = 0
                     criar_explosao(jogador.rect.centerx, jogador.rect.top, VERMELHO, particulas, todos)
 
-            # meteoros × jogador
+            # meteoros   jogador
             if pygame.sprite.spritecollide(jogador, meteoros, True):
                 if jogador.levar_dano(25):
                     shake = 12
                     combo = 0
 
-            # boss × jogador (contato)
+            # boss   jogador (contato)
             for b in pygame.sprite.spritecollide(jogador, bosses, False):
                 if jogador.levar_dano(1):
                     shake = max(shake, 5)
 
-            # powerups × jogador
+            # powerups   jogador
             for pw in pygame.sprite.spritecollide(jogador, powerups, True):
                 if pw.tipo == "vida":
                     jogador.vida = min(jogador.vida_max, jogador.vida + 30)
@@ -656,19 +657,19 @@ def jogo():
                 elif pw.tipo == "pontos":
                     pontos += 150
 
-            # ── Combo timer ──
+            #    Combo timer   
             if combo_timer > 0:
                 combo_timer -= 1
             else:
                 combo = 0
 
-            # ── Bônus de combo ──
+            #    B nus de combo   
             if combo >= 5:
-                pontos += combo // 5   # bônus passivo por combo alto
+                pontos += combo // 5   # b nus passivo por combo alto
 
             if shake > 0: shake -= 1
 
-            # ── Desenho ──
+            #    Desenho   
             desenhar_fundo(estrelas)
 
             ox = random.randint(-shake, shake) if shake else 0
@@ -678,7 +679,7 @@ def jogo():
 
             desenhar_hud(jogador, pontos, nivel, bosses, combo, melhor)
 
-            # ── Game Over / Vitória ──
+            #    Game Over / Vitoria   
             if jogador.vida <= 0 or venceu:
                 if pontos > melhor:
                     melhor = pontos
@@ -692,6 +693,6 @@ def jogo():
             pygame.display.flip()
 
 
-# ─────────────────────────────────────────
+#                                          
 if __name__ == "__main__":
     jogo()

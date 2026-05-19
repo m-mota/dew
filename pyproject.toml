@@ -1,0 +1,12 @@
+﻿[build-system]
+requires = ["pygbag"]
+build-backend = "pygbag.build"
+
+[project]
+name = "Cosmic Heat Deluxe"
+version = "1.0.0"
+description = "Um jogo de nave futurista com Pygame"
+
+[tool.pygbag]
+title = "Cosmic Heat Deluxe"
+orientation = "landscape"
